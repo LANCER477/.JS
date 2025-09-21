@@ -4,9 +4,9 @@ import GroupDao from './dao/groupDAO.js'
 const config = {
     host: 'localhost',
     port: 3306,
-    user: 'user1',
-    password: 'pass',
-    database: 'node_beb',
+    user: 'user123',
+    password: 'pass123',
+    database: 'node_123',
     charset: 'utf8mb4'
 }
 
