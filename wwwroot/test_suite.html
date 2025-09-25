@@ -8,27 +8,51 @@
 <body>
     <h1> Випробування API</h1>
     <button onclick="testGet()">GET</button>
+    <button onclick="testPost()">POST</button>
+    <button onclick="testPUT()">PUT</button>
+    <button onclick="testPATCH()">PATCH</button>
+    <button onclick="testDELETE()">DELETE</button>
     <p id="out"> </p>
     <script>
-        function testGet(){
+        function testPost(){
             fetch("/api/client",
             {
 
-                method: "GET",
-
-                headers: {
-                    "Connection": "close",
-                    "Accept": "application/json"
-
-                },
-
-            }).
-            
-             then(r => r.text())
-            .then(j => {
-                out.innerText = j;
-            });
+                method: "POST",
+            }).then(r => r.json()).then(j => out.innerText = JSON.stringify(j));
+        
         }
+
+        function testGet() {
+            fetch("/api/client", {
+               
+                method: "GET",
+ 
+                headers:{
+                    "Connection":"close",
+                    "Accept" : "application/json"
+                }
+ 
+            }).then(r => r.text())
+                .then(j => {
+                    out.innerText = j;
+                });
+        }
+
+        function testPut(){
+fetch("/api/client", {
+    
+       method: "PUT",
+
+       }).then(r => r.json()).then(j => out.innerText = JSON.stringify(j));
+  }
+
+  function testPatch(){
+fetch("/api/client", {
+       method: "PUT",
+
+       }).then(r => r.json()).then(j => out.innerText = JSON.stringify(j));
+  }
     </script>
 </body>
 </html>
