@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1> Випробування API</h1>
+    <button onclick="testGet()">GET</button>
+    <p id="out"> </p>
+    <script>
+        function testGet(){
+            fetch("/api/client",
+            {
+
+                method: "GET",
+
+                headers: {
+                    "Connection": "close",
+                    "Accept": "application/json"
+
+                },
+
+            }).
+            
+             then(r => r.text())
+            .then(j => {
+                out.innerText = j;
+            });
+        }
+    </script>
+</body>
+</html>
