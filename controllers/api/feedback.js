@@ -41,36 +41,45 @@ export default class FeedbackController {
   }
 
   doPost(request, response, id) {
-    let body = "";
-    request.on('data', chunk => { body += chunk });
-    request.on('end', () => {
-      if (request.headers["content-type"]?.startsWith("application/json")) {
-        try {
-          const data = JSON.parse(body);
+  let body = "";
+  request.on('data', chunk => { body += chunk });
+  request.on('end', () => {
+    const contentType = request.headers["content-type"]?.toLowerCase().trim();
 
-         this.restResponse.meta.method = request.method;
+    
+    if (contentType === "application/json" || contentType === "application/json; charset=utf-8") {
+      try {
+        const data = JSON.parse(body);
+
+        this.restResponse.meta.method = request.method;
         this.restResponse.meta.slug = id;
         this.restResponse.meta.cache = 86400;
         this.restResponse.meta.dataType = "json";
-        this.restResponse.data = JSON.stringify({
+        this.restResponse.data = {
           "Controller": "POST FeedbackController",
           "body": data
+        };
+
+        response.writeHead(200, {
+          "Content-Type": "application/json; charset=utf-8",
+          "Access-Control-Allow-Origin": "*"
         });
-          response.writeHead(200, {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*"
-          });
-          response.end(JSON.stringify(this.restResponse));
-        } catch (err) {
-          response.writeHead(400);
-          response.end("Invalid JSON");
-        }
-      } else {
-        response.writeHead(415);
-        response.end("Unsupported Media Type");
+        response.end(JSON.stringify(this.restResponse));
+      } catch (err) {
+        response.writeHead(400, {
+          "Access-Control-Allow-Origin": "*"
+        });
+        response.end("Invalid JSON");
       }
-    });
-  }
+    } else {
+      response.writeHead(415, {
+        "Access-Control-Allow-Origin": "*"
+      });
+      response.end("Unsupported Media Type");
+    }
+  });
+}
+
 
   doPut(request, response, id) {
     response.writeHead(200, {
